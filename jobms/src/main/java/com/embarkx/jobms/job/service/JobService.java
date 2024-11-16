@@ -2,13 +2,15 @@ package com.embarkx.jobms.job.service;
 
 
 
+import com.embarkx.jobms.job.dto.JobWithCompanyDetailsDTO;
 import com.embarkx.jobms.job.model.Job;
 
 import java.util.List;
 
 public interface JobService {
 
-    List<Job> findAll();
+    // Updated return type from List<Job> to List<JobWithCompanyDetailsDTO>
+    List<JobWithCompanyDetailsDTO> findAll();
 
     void createJob(Job job);
 

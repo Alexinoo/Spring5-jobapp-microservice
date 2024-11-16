@@ -1,5 +1,6 @@
 package com.embarkx.jobms.job.controller;
 
+import com.embarkx.jobms.job.dto.JobWithCompanyDetailsDTO;
 import com.embarkx.jobms.job.model.Job;
 import com.embarkx.jobms.job.service.JobService;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,9 @@ public class JobController {
     }
 
     //@GetMapping("/jobs") - ** Replaced '/jobs' with @RequestMapping("/jobs") at the class level **
+    // update return type from ResponseEntity<List<Job>> to ResponseEntity<List<JobWithCompanyDetailsDTO>>
     @GetMapping()
-    public ResponseEntity<List<Job>> getAllJobs(){
+    public ResponseEntity<List<JobWithCompanyDetailsDTO>> getAllJobs(){
         return  ResponseEntity.ok(jobService.findAll());
     }
 
