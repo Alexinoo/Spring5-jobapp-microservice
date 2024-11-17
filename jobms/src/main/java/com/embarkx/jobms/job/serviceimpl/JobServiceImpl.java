@@ -1,11 +1,17 @@
 package com.embarkx.jobms.job.serviceimpl;
 
 
-import com.embarkx.jobms.job.dto.JobWithCompanyDetailsDTO;
+import com.embarkx.jobms.job.dto.JobDTO;
 import com.embarkx.jobms.job.external.Company;
+import com.embarkx.jobms.job.external.Review;
+import com.embarkx.jobms.job.mapper.JobMapper;
 import com.embarkx.jobms.job.model.Job;
 import com.embarkx.jobms.job.repository.JobRepository;
 import com.embarkx.jobms.job.service.JobService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,15 +26,18 @@ public class JobServiceImpl implements JobService {
 
     //private List<Job> jobs  = new ArrayList<>();
     // private Long id = 1L;
-    private static RestTemplate  restTemplate = new RestTemplate();
+   // private static RestTemplate  restTemplate = new RestTemplate();
     private JobRepository jobRepository;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     public JobServiceImpl(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
 
     @Override
-    public List<JobWithCompanyDetailsDTO> findAll() {
+    public List<JobDTO> findAll() {
        // return jobs;  ** managed by ArrayList **
 
       /* Fetch with RestTemplate class
@@ -39,7 +48,7 @@ public class JobServiceImpl implements JobService {
 
         /* Fetch With DTO */
         List<Job> jobs = jobRepository.findAll();
-        List<JobWithCompanyDetailsDTO> jobWithCompanyDetailsDTOSList = new ArrayList<>();
+        List<JobDTO> jobWithCompanyDetailsDTOSList = new ArrayList<>();
 
         // Loop through the jobs
         // Create a new JobWithCompanyDetailsDTO object
@@ -66,12 +75,22 @@ public class JobServiceImpl implements JobService {
                 .collect(Collectors.toList());
     }
 
-    private JobWithCompanyDetailsDTO convertTo(Job job) {
-        JobWithCompanyDetailsDTO jobWithCompanyDetailsDTO = new JobWithCompanyDetailsDTO();
-        jobWithCompanyDetailsDTO.setJob(job);
-        Company company = restTemplate.getForObject("http://localhost:8081/companies/"+ job.getCompanyId(), Company.class);
-        jobWithCompanyDetailsDTO.setCompany(company);
-        return jobWithCompanyDetailsDTO;
+    private JobDTO convertTo(Job job) {
+       // JobWithCompanyDetailsDTO jobWithCompanyDetailsDTO = new JobWithCompanyDetailsDTO();
+       // jobWithCompanyDetailsDTO.setJob(job); - we have removed the setter for setJob(Job job)
+
+        Company company = restTemplate.getForObject("http://COMPANY-SERVICE:8081/companies/"+ job.getCompanyId(), Company.class);
+        ResponseEntity<List<Review>> reviewResponse =
+                restTemplate.exchange("http://REVIEW-SERVICE:8083/reviews?companyId=" + job.getCompanyId(),
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Review>>() {
+                });
+        List<Review> reviews = reviewResponse.getBody();
+
+        JobDTO jobDTO = JobMapper.mapToJobWithCompanyDto(job,company, reviews);
+        //jobDTO.setCompany(company); - No longer needed since we're handling this functionality in the JobDTO class
+        return jobDTO;
     }
 
     @Override
@@ -81,8 +100,9 @@ public class JobServiceImpl implements JobService {
         jobRepository.save(newJob);
     }
 
+    // Updated return type to JobWithCompanyDTO both on service class also
     @Override
-    public Job findJobById(Long id) {
+    public JobDTO findJobById(Long id) {
       /*  ** managed by ArrayList **
         for (Job job : jobs){
 
@@ -91,7 +111,8 @@ public class JobServiceImpl implements JobService {
         }
         return null;
       */
-        return jobRepository.findById(id).orElse(null);
+        Job job = jobRepository.findById(id).orElse(null);
+        return convertTo(job);
 
     }
 

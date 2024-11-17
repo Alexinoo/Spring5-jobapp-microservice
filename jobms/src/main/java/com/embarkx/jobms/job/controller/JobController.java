@@ -1,6 +1,6 @@
 package com.embarkx.jobms.job.controller;
 
-import com.embarkx.jobms.job.dto.JobWithCompanyDetailsDTO;
+import com.embarkx.jobms.job.dto.JobDTO;
 import com.embarkx.jobms.job.model.Job;
 import com.embarkx.jobms.job.service.JobService;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class JobController {
     //@GetMapping("/jobs") - ** Replaced '/jobs' with @RequestMapping("/jobs") at the class level **
     // update return type from ResponseEntity<List<Job>> to ResponseEntity<List<JobWithCompanyDetailsDTO>>
     @GetMapping()
-    public ResponseEntity<List<JobWithCompanyDetailsDTO>> getAllJobs(){
+    public ResponseEntity<List<JobDTO>> getAllJobs(){
         return  ResponseEntity.ok(jobService.findAll());
     }
 
@@ -34,13 +34,23 @@ public class JobController {
     }
 
    // @GetMapping("/jobs/{id}") - ** Replaced '/jobs' with @RequestMapping("/jobs") at the class level **
+    // Updated Return type from ResponseEntity<Job> to ResponseEntity<ResponseEntity<Job>>
     @GetMapping("/{id}")
-    public ResponseEntity<Job> getJobById(@PathVariable Long id){
+    public ResponseEntity<JobDTO> getJobById(@PathVariable Long id){
+        /*
         Job foundJob = jobService.findJobById(id);
 
         if (foundJob != null)
              return new ResponseEntity<>(foundJob, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND); */
+
+        // Using DTO pattern
+        JobDTO jobWithCompanyDetailsDTO = jobService.findJobById(id);
+
+        if (jobWithCompanyDetailsDTO != null)
+            return new ResponseEntity<>(jobWithCompanyDetailsDTO, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
     //@PutMapping("/jobs/{id}") - ** Replaced '/jobs' with @RequestMapping("/jobs") at the class level **

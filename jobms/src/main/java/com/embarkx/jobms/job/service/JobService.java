@@ -2,7 +2,7 @@ package com.embarkx.jobms.job.service;
 
 
 
-import com.embarkx.jobms.job.dto.JobWithCompanyDetailsDTO;
+import com.embarkx.jobms.job.dto.JobDTO;
 import com.embarkx.jobms.job.model.Job;
 
 import java.util.List;
@@ -10,11 +10,14 @@ import java.util.List;
 public interface JobService {
 
     // Updated return type from List<Job> to List<JobWithCompanyDetailsDTO>
-    List<JobWithCompanyDetailsDTO> findAll();
+    List<JobDTO> findAll();
 
     void createJob(Job job);
 
-    Job findJobById(Long id);
+
+
+    // Updated return type from Job to JobWithCompanyDetailsDTO
+    JobDTO findJobById(Long id);
 
     boolean deleteJobById(Long id);
 
