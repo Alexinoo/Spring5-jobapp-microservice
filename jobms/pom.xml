@@ -81,6 +81,14 @@
 			<artifactId>feign-micrometer</artifactId>
 		</dependency>
 		<!--End of Zipkin Integration -->
+
+		<!-- Config Client Dependency- Connects to Spring Cloud Config Server		-->
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<!-- End of Config Client Dependency-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
