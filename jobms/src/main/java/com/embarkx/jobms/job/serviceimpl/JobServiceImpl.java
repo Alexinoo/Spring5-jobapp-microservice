@@ -11,6 +11,7 @@ import com.embarkx.jobms.job.model.Job;
 import com.embarkx.jobms.job.repository.JobRepository;
 import com.embarkx.jobms.job.service.JobService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -37,6 +38,10 @@ public class JobServiceImpl implements JobService {
 
     // Create an object of ReviewClient
     private ReviewClient reviewClient;
+
+
+    // Number of Retries
+    int attempt = 0;
     @Autowired
     RestTemplate restTemplate;
 
@@ -48,8 +53,10 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @CircuitBreaker(name = "companyBreaker", fallbackMethod="companyBreakerFallback")
+   // @CircuitBreaker(name = "companyBreaker", fallbackMethod="companyBreakerFallback")
+    @Retry(name = "companyBreaker", fallbackMethod="companyBreakerFallback")
     public List<JobDTO> findAll() {
+        System.out.println("Attempt: "+ ++attempt);
        // return jobs;  ** managed by ArrayList **
 
       /* Fetch with RestTemplate class
