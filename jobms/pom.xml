@@ -83,12 +83,22 @@
 		<!--End of Zipkin Integration -->
 
 		<!-- Config Client Dependency- Connects to Spring Cloud Config Server		-->
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<!-- End of Config Client Dependency-->
+
+		<!-- Resilience4j and AOP Dependency- Fault Tolerance-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<!-- End of Resilience4j and AOP Dependency- Fault Tolerance -->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
