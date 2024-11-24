@@ -10,6 +10,7 @@ import com.embarkx.jobms.job.mapper.JobMapper;
 import com.embarkx.jobms.job.model.Job;
 import com.embarkx.jobms.job.repository.JobRepository;
 import com.embarkx.jobms.job.service.JobService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -47,6 +48,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    @CircuitBreaker(name = "companyBreaker")
     public List<JobDTO> findAll() {
        // return jobs;  ** managed by ArrayList **
 
