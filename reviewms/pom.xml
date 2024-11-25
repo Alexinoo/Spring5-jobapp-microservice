@@ -80,6 +80,13 @@
 			<artifactId>feign-micrometer</artifactId>
 		</dependency>
 		<!--End of Zipkin Integration -->
+
+		<!-- RabbitMQ Dependency		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<!-- End of RabbitMQ Dependency		-->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
