@@ -1,6 +1,10 @@
 package com.embarkx.reviewms.dto;
 
-public class ReviewMessage {
+import java.io.Serializable;
+
+public class ReviewMessage implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private Long id;
     private String title;
     private String description;
