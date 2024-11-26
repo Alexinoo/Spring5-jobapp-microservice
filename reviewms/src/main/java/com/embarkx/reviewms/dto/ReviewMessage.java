@@ -2,14 +2,14 @@ package com.embarkx.reviewms.dto;
 
 import java.io.Serializable;
 
-public class ReviewMessage implements Serializable {
+public class ReviewMessage implements Serializable{
 
     private static final long serialVersionUID = 1L;
     private Long id;
     private String title;
     private String description;
     private double rating;
-    private long companyId;
+    private Long companyId;
 
 
     // Getters and Setters

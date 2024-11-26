@@ -4,8 +4,12 @@ import com.embarkx.companyms.dto.ReviewMessage;
 import com.embarkx.companyms.model.Company;
 import com.embarkx.companyms.repository.CompanyRepository;
 import com.embarkx.companyms.service.CompanyService;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +47,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void updateCompanyRating(ReviewMessage reviewMessage) {
-
+        System.out.println("Received Message: "+ reviewMessage.getDescription());
     }
 
     @Override

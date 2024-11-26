@@ -3,7 +3,9 @@ package com.embarkx.companyms.messaging;
 import com.embarkx.companyms.dto.ReviewMessage;
 import com.embarkx.companyms.service.CompanyService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReviewMessageConsumer {
 
     private final CompanyService companyService;
@@ -16,4 +18,5 @@ public class ReviewMessageConsumer {
     public void consumeMessage(ReviewMessage reviewMessage){
         companyService.updateCompanyRating(reviewMessage);
     }
+
 }

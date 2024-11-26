@@ -3,7 +3,10 @@ package com.embarkx.reviewms.messaging;
 import com.embarkx.reviewms.dto.ReviewMessage;
 import com.embarkx.reviewms.model.Review;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.SimpleMessageConverter;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ReviewMessageProducer {
 
     private final RabbitTemplate rabbitTemplate;

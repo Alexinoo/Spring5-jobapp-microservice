@@ -1,6 +1,7 @@
 package com.embarkx.reviewms.controller;
 
 
+import com.embarkx.reviewms.messaging.ReviewMessageProducer;
 import com.embarkx.reviewms.model.Review;
 import com.embarkx.reviewms.service.ReviewService;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,11 @@ import java.util.List;
 public class ReviewController {
 
     private ReviewService reviewService;
+    private ReviewMessageProducer reviewMessageProducer;
 
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService,ReviewMessageProducer reviewMessageProducer) {
         this.reviewService = reviewService;
+        this.reviewMessageProducer = reviewMessageProducer;
     }
 
     @GetMapping
@@ -27,8 +30,10 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<String> addReview(@RequestBody Review newReview, @RequestParam Long companyId){
         boolean isReviewSaved = reviewService.addReview(newReview , companyId);
-        if (isReviewSaved)
-            return new ResponseEntity<>("Review for company with id "+ companyId +" added successfully.", HttpStatus.CREATED);
+        if (isReviewSaved) {
+            reviewMessageProducer.sendMessage(newReview);
+            return new ResponseEntity<>("Review for company with id " + companyId + " added successfully.", HttpStatus.CREATED);
+        }
         return new ResponseEntity<>("Review Not Saved",HttpStatus.NOT_FOUND);
     }
 

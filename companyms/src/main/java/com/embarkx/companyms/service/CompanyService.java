@@ -2,6 +2,8 @@ package com.embarkx.companyms.service;
 
 import com.embarkx.companyms.dto.ReviewMessage;
 import com.embarkx.companyms.model.Company;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.support.converter.MessageConverter;
 
 import java.util.List;
 
