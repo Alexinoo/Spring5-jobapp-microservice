@@ -19,6 +19,6 @@ public class ReviewMessageProducer {
         reviewMessage.setDescription(newReview.getDescription());
         reviewMessage.setRating(newReview.getRating());
         reviewMessage.setCompanyId(newReview.getCompanyId());
-
+        rabbitTemplate.convertAndSend("companyRatingQueue",reviewMessage);
     }
 }
