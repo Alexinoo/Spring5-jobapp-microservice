@@ -1,5 +1,6 @@
 package com.embarkx.companyms.serviceimpl;
 
+import com.embarkx.companyms.dto.ReviewMessage;
 import com.embarkx.companyms.model.Company;
 import com.embarkx.companyms.repository.CompanyRepository;
 import com.embarkx.companyms.service.CompanyService;
@@ -38,6 +39,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company getCompany(Long id) {
         return companyRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void updateCompanyRating(ReviewMessage reviewMessage) {
+
     }
 
     @Override
