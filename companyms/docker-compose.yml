@@ -119,6 +119,7 @@ services:
       - postgres
 
   gateway-ms:
+    container_name: gateway-ms
     image: mwangialex26/gateway-ms:latest
     ports:
       - 8084:8084
