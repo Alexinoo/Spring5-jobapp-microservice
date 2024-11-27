@@ -61,7 +61,14 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
-	<!-- Zipkin Dependency Integration - 3 (dependencies)-->
+		<!-- OpenFeign dependency Integration -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<!-- End Of openfeign dependency Integration -->
+
+		<!-- Zipkin Dependency Integration - 3 (dependencies)-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>

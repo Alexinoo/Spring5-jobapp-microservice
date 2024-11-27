@@ -12,8 +12,12 @@ public class Company {
     private String name;
     private String description;
 
+    private double averageRating;
+
     public Company() {
     }
+
+
 
     public Long getId() {
         return id;
@@ -39,4 +43,11 @@ public class Company {
         this.description = description;
     }
 
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
 }

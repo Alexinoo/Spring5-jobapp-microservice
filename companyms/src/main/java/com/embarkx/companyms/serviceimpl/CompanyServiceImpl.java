@@ -1,9 +1,11 @@
 package com.embarkx.companyms.serviceimpl;
 
+import com.embarkx.companyms.clients.ReviewClient;
 import com.embarkx.companyms.dto.ReviewMessage;
 import com.embarkx.companyms.model.Company;
 import com.embarkx.companyms.repository.CompanyRepository;
 import com.embarkx.companyms.service.CompanyService;
+import jakarta.ws.rs.NotFoundException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,11 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
 
-    public CompanyServiceImpl(CompanyRepository companyRepository) {
+    private ReviewClient reviewClient;
+
+    public CompanyServiceImpl(CompanyRepository companyRepository, ReviewClient reviewClient) {
         this.companyRepository = companyRepository;
+        this.reviewClient = reviewClient;
     }
 
     @Override
@@ -48,6 +53,11 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public void updateCompanyRating(ReviewMessage reviewMessage) {
         System.out.println("Received Message: "+ reviewMessage.getDescription());
+        Company company = companyRepository.findById(reviewMessage.getCompanyId())
+                .orElseThrow(()-> new NotFoundException("Company "+ reviewMessage.getCompanyId()+ " Not Found. "));
+        double averageRating = reviewClient.getAverageRatingForCompany(reviewMessage.getCompanyId());
+        company.setAverageRating(averageRating);
+        companyRepository.save(company);
     }
 
     @Override
