@@ -2,9 +2,7 @@ package com.embarkx.companyms.dto;
 
 import java.io.Serializable;
 
-public class ReviewMessage implements Serializable{
-
-    private static final Long serialVersionUID = 1L;
+public class ReviewMessage {
     private Long id;
     private String title;
     private String description;

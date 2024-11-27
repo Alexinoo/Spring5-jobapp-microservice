@@ -13,7 +13,6 @@ import java.util.List;
 @RestController()
 @RequestMapping("/reviews")
 public class ReviewController {
-
     private ReviewService reviewService;
     private ReviewMessageProducer reviewMessageProducer;
 
